@@ -1,0 +1,80 @@
+<div class="row">
+  <div class="col-sm-12">
+    <app-card cardTitle="Seguimiento de guias" [options]="false">
+      <ng-template #content let-modal>
+        <div class="modal-header">
+          <h4 class="modal-title" id="modal-title">SEGUIMIENTO DE GUIAS</h4>
+        </div>
+        <div class="modal-body" *ngIf="mensaje!='reim' && mensaje!='reimE'">
+            <h3>{{mensaje}}</h3>
+          </div>
+          <div *ngIf="mensaje=='reim'">
+            <div style="text-align: center;">
+                <app-ireimprimir-reception [data]="data" *ngIf="data"></app-ireimprimir-reception>
+            </div>
+
+          </div>
+          <div *ngIf="mensaje=='reimE'">
+              <div style="text-align: center;">
+                  <app-idelivery [data]="data" *ngIf="data"></app-idelivery>
+              </div>
+
+            </div>
+
+        <div class="modal-footer">
+
+          <button type="button" class="btn btn-success" style="color:#fff !important" (click)="modal.close('Ok')">Aceptar</button>
+        </div>
+      </ng-template>
+      <div class="col-md-12">
+        <div class="row">
+          <div class="col-lg-6">
+            <label for="">Numero de Guia:</label>
+            <input class="form-control" name="guia" type='text' style="text-transform: uppercase" placeholder="Numero de guia" [(ngModel)]="guia.numero_guia" />
+          </div>
+          <div class="col-lg-4">
+            <button type="button" class="btn btn-outline-primary margen" (click)="buscar()"><i class="feather icon-search"></i></button>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="table-responsive">
+          <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table  row-border table-hover">
+            <thead >
+              <tr class="text-white" style="background:rgb(58, 199, 241); ;">
+                <th >ID</th>
+                <th>FECHA</th>
+                <th>TRANSACCION</th>
+                <th>ORIGEN</th>
+                <th>DESTINO</th>
+                <th>USUARIO</th>
+                <th>CANTIDAD</th>
+                <th>MONTO</th>
+                <th>CONTENIDO</th>
+                <th>REMITENTE</th>
+                <th>CONSIGNATARIO</th>
+                <th>TELEFONO</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of datos">
+                <td (click)="ver(item,content)">{{item.id}}</td>
+                <td>{{item.fecha}}</td>
+                <td>{{item.tipo_transaccion}}</td>
+                <td>{{item.origen}}</td>
+                <td>{{item.destino}}</td>
+                <td>{{item.usuario}}</td>
+                <td>{{item.piezas}}</td>
+                <td>{{item.monto}}</td>
+                <td>{{item.descripcion}}</td>
+                <td>{{item.remitente}}</td>
+                <td>{{item.consignatario}}</td>
+                <td>{{item.telefono_consignatario}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </app-card>
+  </div>
+</div>

@@ -1,0 +1,89 @@
+<div class="row">
+  <div class="col-sm-12">
+    <app-card cardTitle="Reporte Total Agencia"  [options]="false">
+      <div class="col-md-12">
+        <div class="row">
+          <div class="col-lg-3">
+            <label for="">Del:</label>
+              <input class="form-control" placeholder="fecha" #del="ngbDatepicker" name="del" [(ngModel)]="yesterday" ngbDatepicker (click)="del.toggle()" />
+          </div>
+          <div class="col-lg-3">
+            <label for="">Al:</label>
+              <input class="form-control" placeholder="fecha" #al="ngbDatepicker" name="al" [(ngModel)]="today" ngbDatepicker (click)="al.toggle()" />
+          </div>
+          <div class="col-lg-3">
+            <label class="form-control-label">Agencias</label>
+            <select class="form-control" name="agen_id"  [(ngModel)]="agen_id">
+                <option value="0" selected> Seleccione su Agencia</option>
+                <option *ngFor="let item of agencias" [value]="item.id">
+                  {{item.nombre}}</option>
+            </select>
+          </div>
+          <div class="col-lg-3">
+            <label class="form-control-label">Usuarios</label>
+              <select class="form-control" name="usuarios" [(ngModel)]="usuario_id">
+                  <option value="0" selected> Todas </option>
+                  <option *ngFor="let item of usuarios" [value]="item.id">
+                  {{item.name}}</option>
+              </select>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-12">
+        <div class="row">
+          <div class="col-lg-2">
+          </div>
+          <div class="col-lg-3">
+            <button type="button" class="btn btn-outline-primary margen" (click)="generalReporte()"><i class="feather icon-check-circle"></i>Procesar</button>
+          </div>
+          <div class="col-lg-3">
+            <button type="button" class="btn btn-outline-primary margen" (click)="total()"><i class="feather icon-file-text"></i>Total</button>
+          </div>
+          <div class="col-lg-3">
+            <button type="button" class="btn btn-outline-primary margen" (click)="exportarXLSX()"><i class="feather icon-file"></i>A Excel</button>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="table-responsive">
+          <table class="table">
+            <thead class="text-white" style="background:rgb(58, 199, 241); ;">
+              <tr>
+                  <th >#</th>
+                  <th scope="col">DESCRIPCION</th>
+                  <th scope="col">SUBTOTAL</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr >
+                  <th>1</th>
+                  <td scope="row">{{ reporteR.tipo_transaccion}}</td>
+                  <td class="text-white" style="background:rgb(58, 199, 241); ;">{{ totalRecepcion | number}}</td>
+              </tr>
+              <tr >
+                  <th>2</th>
+                  <td scope="row">{{ reporteEn.tipo_transaccion}}</td>
+                  <td class="text-white" style="background:rgb(58, 199, 241); ;">{{ totalEntregado | number}}</td>
+              </tr>
+              <tr >
+                  <th>3</th>
+                  <td scope="row">{{ reporte1.tipo_transaccion}}</td>
+                  <td class="text-white" style="background:rgb(58, 199, 241); ;">{{ totalIngreso | number}}</td>
+              </tr>
+               <tr >
+                  <th>4</th>
+                  <td scope="row">{{ reporte2.tipo_transaccion}}</td>
+                  <td class="text-white" style="background:rgb(58, 199, 241); ;">{{ totalSalida | number}}</td>
+              </tr>
+              <tr>
+                  <td></td>
+                  <th scope="row">Total:</th>
+                  <th class="text-white" style="background:rgb(58, 199, 241); ;">{{totalCaja | number}}</th>
+                </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </app-card>
+  </div>
+</div>

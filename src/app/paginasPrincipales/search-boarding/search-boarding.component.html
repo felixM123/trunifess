@@ -1,0 +1,107 @@
+<div class="card">
+    <!-- Filter Datatable Options Starts -->
+    <section id="filter" class="mb-4 busqueda">
+        <div class="row text-left">
+            <div class="col-sm-12 col-lg-4">
+                <label for=""> Origen:</label>
+                <div class="form-group">
+                        <select class="form-control" name="agencia_id" [(ngModel)]="query.agencia_id">
+                            <option value="0" selected> Seleccione su Agencia</option>
+                            <option *ngFor="let item of agencias" [value]="item.id">
+                                {{item.nombre}}
+                            </option>
+                        </select>
+                </div>
+            </div>
+            <div class="col-sm-12 col-lg-3">
+                <label for="">Del:</label>
+                <div class="form-group">
+                    <div class="input-group">
+                        <input class="form-control" placeholder="fecha" #del="ngbDatepicker" name="del"
+                            [(ngModel)]="yesterday" ngbDatepicker (click)="del.toggle()">
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-12 col-lg-3">
+                <label for="">Al:</label>
+                <div class="form-group">
+                    <div class="input-group">
+                        <input class="form-control" placeholder="fecha" #al="ngbDatepicker" name="al"
+                            [(ngModel)]="today" ngbDatepicker (click)="al.toggle()">
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-12 col-lg-2">
+              <div class="col text-center" *ngIf="cargando==true">
+                <div *ngIf="cancelar1==false">
+                <button type="button" class="btn btn-icon btn-primary buscar" (click)="obtenerDatos()">
+                  <i class="feather icon-search"></i></button>
+                  </div>
+              </div>
+              <div *ngIf="cancelar1==true">
+                <button (click)="cancelar()" type="button" class="btn btn-icon btn-danger buscar">
+                  <i class="feather icon-x-circle"></i>
+                </button>
+              </div>
+            </div>
+        </div>
+        <br>
+        <br>
+        <div class="row">
+          <div class="table-responsive">
+            <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table  row-border table-hover">
+                <thead >
+                    <tr>
+                        <th>ID</th>
+                        <th>FECHA</th>
+                        <th>ORIGEN</th>
+                        <th>CAMION</th>
+                        <th>CHOFER</th>
+                        <th>RELEVO</th>
+                    </tr>
+                </thead>
+                <tbody>
+                  <tr  *ngIf="!cargando">
+                    <th ></th>
+                    <th ></th>
+                    <th></th>
+                    <th>
+
+                      <div class="lds-spinner">
+                       <div></div>
+                       <div></div>
+                       <div></div>
+                       <div></div>
+                       <div></div>
+                       <div></div>
+                       <div></div>
+                       <div></div>
+                       <div></div>
+                       <div></div>
+                       <div></div>
+                       <div></div>
+
+                   </div> </th>
+                    <th ></th>
+                    <th ></th>
+                  </tr>
+
+                    <tr *ngFor="let item of rows" (click)="selectData(item)">
+                        <td>{{item.id}}</td>
+                        <td>{{item.fecha}}</td>
+                        <td>{{item.origen}}</td>
+                        <td>{{item.camion}}</td>
+                        <td>{{item.chofer}}</td>
+                        <td>{{item.relevo}}</td>
+                    </tr>
+                </tbody>
+            </table>
+          </div>
+            <p><b>{{seleccionado}} seleccionados/{{cantidad}} embarcos</b></p>
+        </div>
+        <button type="button" class="btn btn-outline-primary" (click)="enviarObjetos()">
+            <i class="feather icon-save"></i> Guardar
+        </button>
+    </section>
+    <!-- Filter Datatable Options Ends -->
+</div>

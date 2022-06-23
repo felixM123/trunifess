@@ -1,0 +1,50 @@
+<div class="row">
+  <div class="col-sm-12">
+    <app-card cardTitle={{titulo}} [options]="false">
+      <form (ngSubmit)="onSubmit()" #regularForm="ngForm">
+        <div class="row">
+          <div class="col-sm-10 center ">
+            <div class="form-group">
+              <label for="cliente">Nombre:</label>
+              <input type="text" class="form-control" name="nombre" ng-model="nombre"  [(ngModel)]="agencia.nombre" placeholder="Nombre agencia" required/>
+            </div>
+            <div class="form-group">
+              <label for="consignatario">Acronimo:</label>
+              <input type="text" class="form-control" name="acronimo"  [(ngModel)]="agencia.acronimo" placeholder="Abreviacion de agencia" required/>
+            </div>
+            <div class="form-group">
+              <label for="consignatario">Direccion:</label>
+              <input type="text" class="form-control" name="direccion"  [(ngModel)]="agencia.direccion" placeholder="Direccion agencia" required/>
+            </div>
+            <div class="form-group">
+              <label for="consignatario">Pais:</label>
+              <input type="text" class="form-control" name="alcaldia"  [(ngModel)]="agencia.alcaldia" placeholder="Pais y departamento de agencia" required/>
+            </div>
+            <div class="form-group">
+              <label for="consignatario">Telefonos:</label>
+              <input type="text" class="form-control" name="telefonos"  [(ngModel)]="agencia.telefonos" placeholder="Telefonos" required/>
+            </div>
+            <div class="form-group">
+              <label for="consignatario">Codigo:</label>
+              <input type="text" class="form-control" name="codigo"  [(ngModel)]="agencia.cod" placeholder="Codigo agencia" required/>
+            </div>
+            <div class="form-group">
+              <div class="row">
+                <div class="col-6 d-flex justify-content-center">
+                  <button type="submit" class="btn btn-success btn-raised" style="width: 30%" [disabled]="!regularForm.valid">
+                    {{boton}}
+                  </button>
+                </div>
+                <div class="col-6 d-flex justify-content-center">
+                  <button type="button" class="btn btn-danger btn-raised" style="width: 30%" (click)="volver()">
+                    Cancelar
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </app-card>
+  </div>
+</div>

@@ -1,0 +1,197 @@
+<div class="row">
+  <div class="col-sm-12">
+    <app-card cardTitle="Recepcion Encomienda" [options]="false">
+      <form (ngSubmit)="onSubmit()" #regularForm="ngForm">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <div class="row">
+                <div class="col-sm-12">
+                  <div class="row no-gutters">
+                    <div class="col-9">
+                      <label for="guia">Guia:</label>
+                      <input type="text" class="form-control" name="guia" [(ngModel)]="embarco.guia" required
+                        disabled />
+                    </div>
+                    <div class="col-3">
+                      <button type="button" class="btn btn-outline-primary borde" (click)="openModal(customContent)"><i
+                          class="feather icon-search">Buscar</i></button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <ng-template #customContent let-c="close" let-d="dismiss">
+              <div class="modal-header">
+                <h4 class="modal-title ">BUSCADOR DE GUIAS</h4>
+                <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <app-search-guides (objectSelected)="dataRecovery($event)"></app-search-guides>
+            </ng-template>
+            <div *ngIf="formulario">
+              <div class="form-group">
+                <label class="form-control-label">CI/Emision:</label>
+                <input type="text" class="form-control" name="ci" [(ngModel)]="embarco.ci" [ngbTypeahead]="search"
+                  (focus)="focus.next($event.target.value)" (click)="click.next($event.target.value)"
+                  #instance="ngbTypeahead" required />
+              </div>
+              <div class="form-group">
+                <label for="nombres">Nombre(s):</label>
+                <input type="text" class="form-control" style="text-transform: uppercase" name="nombres"
+                  [ngbTypeahead]="search1" (focus)="focus1.next($event.target.value)"
+                  (click)="click1.next($event.target.value)" [(ngModel)]="embarco.nombres" #instance="ngbTypeahead"
+                  required />
+              </div>
+              <div class="form-group">
+                <label for="telefono">Telefono:</label>
+                <input type="text" class="form-control" name="telefono" [ngbTypeahead]="search2"
+                  (focus)="focus2.next($event.target.value)" (click)="click2.next($event.target.value)"
+                  [(ngModel)]="embarco.telefono" #instance="ngbTypeahead" required number />
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="form-group">
+              <br>
+              <label class="form-control-label">Origen</label>
+              <input type="text" class="form-control" #origen="ngModel" name="origen" [(ngModel)]="embarco.origen"
+                disabled required />
+            </div>
+            <div class="form-group">
+              <label class="form-control-label">Forma de Pago</label>
+              <input style="text-transform: uppercase" type="text" class="form-control" name="tipo" #tipo="ngModel"
+                [(ngModel)]="embarco.tipo" disabled required />
+            </div>
+            <div class="form-group">
+              <label for="remitente">Remitente</label>
+              <input type="text" class="form-control" name="remitente" #remitente="ngModel"
+                [(ngModel)]="embarco.remitente" required disabled />
+            </div>
+            <div class="form-group">
+              <label for="consignatario">Consignatario</label>
+              <input type="text" class="form-control" name="consignatario" #consignatario="ngModel"
+                [(ngModel)]="embarco.consignatario" required disabled />
+            </div>
+          </div>
+
+          <div class="col-md-12">
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <div class="row">
+                    <div class="col">
+                      <label class="form-control-label" for="cantidad">Cantidad</label>
+                      <input class="form-control input-md" type="number" #cantidad="ngModel"
+                        ngModel="recepcion.cantidad" required id="catidad" [(ngModel)]="embarco.cantidad"
+                        name="cantidad">
+                    </div>
+                    <div class="col">
+                      <label class="form-control-label" for="peso">Peso</label>
+                      <input class="form-control input-md" type="number" #peso="ngModel" ngModel
+                        [(ngModel)]="embarco.peso" required id="peso" name="peso">
+                    </div>
+                    <div class="col">
+                      <label class="form-control-label" for="precio">Precio Unit.</label>
+                      <input class="form-control input-md" ngModel type="number" #precio_unitario="ngModel" id="precio"
+                        name="precio_unitario" ngModel="precio_unitario" (keyup)="operacion1()"
+                        [(ngModel)]="embarco.precio_unitario" required>
+                    </div>
+
+                    <div class="col">
+                      <label class="form-control-label" for="total">Total</label>
+                      <input class="form-control" type="number" id="total" #total="ngModel" [(ngModel)]="embarco.total"
+                        name="total" ngModel="total" required>
+                    </div>
+                    <div class="col-md-12">
+                      <div class="form-group">
+                        <label for="contenido">Contenido Encomienda</label>
+                        <textarea class="form-control" rows="3" id="contenido" #contenido="ngModel" name="contenido"
+                          ngModel [(ngModel)]="embarco.contenido" required></textarea>
+                      </div>
+                    </div>
+                    <div class="custom-control custom-checkbox mb-2 mr-sm-2 mb-sm-0">
+                      <input type="checkbox" class="custom-control-input" id="fragil" name="fragil" disabled
+                        [checked]="fragil">
+                      <label class="custom-control-label" for="fragil">Fragil</label>
+                    </div>
+                    <div class="custom-control custom-checkbox mb-2 mr-sm-2 mb-sm-0">
+                      <input type="checkbox" class="custom-control-input" id="valorNoDeclarado" name="valorNoDeclarado" [checked]="no_declarado"
+                        disabled>
+                      <label class="custom-control-label" for="valorNoDeclarado">Valor no
+                        declarado</label>
+                    </div>
+                    <div class="custom-control custom-checkbox mb-2 mr-sm-2 mb-sm-0">
+                      <input type="checkbox" class="custom-control-input" id="sibDineroNiObjetosdeValor"
+                        name="sinDineroNiObjetosdeValor" [checked]="sin_dinero" disabled>
+                      <label class="custom-control-label" for="sibDineroNiObjetosdeValor">Sin Dinero / Ni
+                        objetos de valor</label>
+                    </div>
+                    <div class="col-md-12">
+                      <div class="form-group">
+                        <input type="text" class="form-control" name="observaciones" required placeholder="observacion" [(ngModel)]="observacion"
+                          disabled />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-12" *ngIf="embarco.tipo=='POR PAGAR EN DESTINO'">
+
+            <div class="row">
+              <div class="col-sm">
+                <label for="montoPagar">Monto por Pagar: </label>
+                <input type="text" class="form-control" name="montoPagar" required [(ngModel)]="embarco.total"
+                  disabled />
+              </div>
+              <div class="col-sm">
+                <label for="cambio">Cambio: </label>
+                <input type="text" class="form-control" name="cambio" required [(ngModel)]="embarco.cambio" disabled />
+              </div>
+
+            </div>
+
+            <div class="row">
+              <div class="col-sm">
+                <label for="monto">Monto Bs: </label>
+                <input type="text" class="form-control" name="efectivo" #efectivo="ngModel"
+                  [(ngModel)]="embarco.efectivo" (ngModelChange)="operacion2()" required />
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <br>
+        <br>
+        <div class="col text-center" *ngIf="!cargando">
+          <div class="lds-spinner">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+          </div>
+        </div>
+        <div class="col text-center" *ngIf="cargando==true">
+          <button  type="submit"  class="btn btn-primary"
+        [disabled]="!regularForm.form.valid">Registrar</button>
+        </div>
+      </form>
+      <div *ngIf='data'>
+        <app-idelivery [data]="data" hidden></app-idelivery>
+      </div>
+
+    </app-card>
+  </div>
+</div>

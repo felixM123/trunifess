@@ -1,0 +1,169 @@
+<div class="row">
+  <div class="col-sm-12">
+    <app-card cardTitle="Reporte de Recepcion/Entrega" [options]="false">
+      <div class="col-md-12">
+        <div class="row">
+          <div class="col-lg-3">
+            <label for="">Del:</label>
+            <div class="form-group">
+              <div class="input-group">
+                <input class="form-control" placeholder="fecha" #del="ngbDatepicker" name="del" [(ngModel)]="yesterday"
+                  ngbDatepicker (click)="del.toggle()">
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-3">
+            <label for="">Al:</label>
+            <div class="form-group">
+              <div class="input-group">
+                <input class="form-control" placeholder="fecha" #al="ngbDatepicker" name="al" [(ngModel)]="today"
+                  ngbDatepicker (click)="al.toggle()" />
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <label for="">Cliente</label>
+            <div class="form-group">
+              <input type="text" class="form-control" ngModel name="contacto" required placeholder="Nombre Completo"
+              [(ngModel)]="objeto.contacto" disabled />
+            </div>
+          </div>
+          <div class="col-lg-2">
+            <button type="button" class="btn btn-outline-primary" (click)="myLargeModalLabel.show()"
+            (click)="busquedaClientes()"><i class="feather icon-search"></i>Buscar</button>
+          </div>
+        </div>
+      </div>
+      <!-- modal inicial -->
+      <app-ui-modal #myLargeModalLabel [hideFooter]="true" [dialogClass]="'modal-lg'">
+        <div class="app-modal-header">
+          <h5 class="modal-title">Buscador de Clientes</h5>
+          <button type="button" class="close basic-close" data-dismiss="modal" aria-label="Close"
+            (click)="myLargeModalLabel.hide()"><span aria-hidden="true">&times;</span></button>
+        </div>
+        <div class="app-modal-body">
+          <div class="table-responsive">
+            <div class="form-group">
+              <label>Nombre o Datos:</label>
+              <input type="text" class="form-control" name="clientes" (keyup)='buscarClin($event)' />
+            </div>
+            <table class="table  row-border table-hover">
+              <thead>
+                <tr>
+                  <th>CONTACTO</th>
+                  <th>ID</th>
+                  <th>NIT</th>
+                  <th>NOMBRE COMERCIAL</th>
+                  <th>NOMBRE FACTURA</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of rows" (click)="selectData(item)" (click)="myLargeModalLabel.hide()">
+                  <td>{{item.contacto}}</td>
+                  <td>{{item.id}}</td>
+                  <td>{{item.nit}}</td>
+                  <td>{{item.nombre_comercial}}</td>
+                  <td>{{item.nombre_factura}}</td>
+                </tr>
+            </table>
+          </div>
+        </div>
+      </app-ui-modal>
+      <!-- modal final -->
+      <div class="col-md-12">
+        <div class="row">
+          <div class="col-lg-2">
+            <div class="form-group">
+              <label class="form-control-label">Tipo</label>
+                  <select class="form-control" [(ngModel)]="reporte.tipo" name="tipo" >
+                      <option  [value]="i.nombre" *ngFor="let i of kind">{{i.nombre}}</option>
+                  </select>
+            </div>
+          </div>
+          <div class="col-lg-3">
+            <div class="form-group">
+              <label class="form-control-label">Agencia Destino</label>
+                  <select class="form-control" name="agencia_id_destino" #agencia_id_destino="ngModel"
+                      [(ngModel)]="reporte.agen_id_destino">
+                      <option value="0" selected> TODO </option>
+                      <option *ngFor="let item of agencias" [value]="item.id">
+                          {{item.nombre}}
+                      </option>
+                  </select>
+            </div>
+          </div>
+          <div class="col-lg-2">
+            <div *ngIf='!cargando' class="text-center">
+              <div class="lds-spinner">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+              </div>
+            </div>
+            <div *ngIf='cargando==true'>
+              <button type="button" class="btn btn-outline-primary" (click)="reporteRecepcion()"><i class="feather icon-check-circle"></i>Procesar</button>
+            </div>
+          </div>
+          <div class="col-lg-2">
+            <button type="button" class="btn btn-outline-primary" (click)="exportarXLSX()"><i class="feather icon-file"></i>A Excel</button>
+          </div>
+          <div class="col-lg-3">
+            <div class="card text-center margen" style="background:rgb(58, 199, 241); ;">
+              <h5 class="text-white mb-2">Total</h5>
+              <h4 class="text-white mb-3 f-w-300">{{totalRecepcion}}Bs</h4>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="table-responsive">
+          <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table  row-border table-hover">
+            <thead >
+              <tr class="text-white" style="background:rgb(58, 199, 241); ;">
+                <th>#</th>
+                <th >Fecha</th>
+                <th >Guia</th>
+                <th >Tipo</th>
+                <th >Descripcion</th>
+                <th >Consignatario</th>
+                <th >Origen</th>
+                <th >Destino</th>
+                <th >Usuario</th>
+                <th >Piezas</th>
+                <th >Monto</th>
+                <th >Peso</th>
+                <th >Fecha Entrega</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of reporteT,index as id">
+                <th class="text-white" style="background:rgb(58, 199, 241); ;" >{{id+1}}</th>
+                <td>{{ item.fecha }}</td>
+                <td>{{ item.guia }}</td>
+                <td>{{ item.tipo }}</td>
+                <td>{{ item.descripcion }}</td>
+                <td>{{ item.consignatario }}</td>
+                <td>{{ item.origen }}</td>
+                <td>{{ item.destino }}</td>
+                <td>{{ item.usuario }}</td>
+                <td >{{ item.piezas | number }}</td>
+                <td>{{ item.monto }}</td>
+                <td>{{ item.peso | number }}</td>
+                <td>{{ item.fecha_entrega }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </app-card>
+  </div>
+</div>

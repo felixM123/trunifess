@@ -1,0 +1,96 @@
+<div class="row">
+  <div class="col-sm-12">
+    <app-card cardTitle="DESEMBARQUE" [options]="false">
+      <div class="row">
+        <div class="col-lg-3">
+          <label for="">Buscar Embarco:</label>
+          <input type="text" class="form-control" name="embarco" [(ngModel)]="data.embarco_id" disabled>
+        </div>
+        <div class="col-lg-1">
+          <button type="button" class="btn btn-outline-primary margen" (click)="openModal(customContent)">
+            <i class="feather icon-search"></i>
+          </button>
+        </div>
+
+
+        <div class="col-lg-4">
+          <label for="">Origen: </label>
+          <input type="text" class="form-control" name="origen" [(ngModel)]="data.origen" disabled>
+        </div>
+        <div class="col-lg-4">
+          <label for="">Destino:</label>
+          <input type="text" class="form-control" name="destino" [(ngModel)]="data.destino" disabled>
+        </div>
+      </div>
+      <ng-template #customContent let-c="close" let-d="dismiss">
+        <div class="modal-header">
+          <h4 class="modal-title ">BUSCADOR DE EMBARCO</h4>
+          <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <app-search-boarding (objectSelected)="dataRecovery($event)"></app-search-boarding>
+      </ng-template>
+      <br>
+      <br>
+      <div class="row">
+        <div class="table-responsive">
+          <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table  row-border table-hover">
+            <thead class="table  row-border table-hover">
+              <tr>
+                <th>#</th>
+                <th scope="col">GUIA</th>
+                <th scope="col">CONTENIDO</th>
+                <th scope="col">DESTINO</th>
+                <th scope="col">SALDO</th>
+                <th scope="col">CANTIDAD</th>
+                <th scope="col"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of rows;index as i">
+                <th scope="row">{{ i + 1 }}</th>
+                <td>{{item.guia}}</td>
+                <td>{{item.contenido}}</td>
+                <td>{{item.destino}}</td>
+                <td *ngIf="item.saldo==item.cantidad">0</td>
+                <td *ngIf="item.saldo!=item.cantidad">{{item.saldo}}</td>
+                <td>{{item.cantidad}}</td>
+                <td>
+                  <a (click)="selectData(i)"><i class="fas fa-trash" style="color: #DC143C"></i></a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <p><b>{{cantidad}} embarcos</b></p>
+      <div class="col text-center" *ngIf="!cargando">
+        <div class="lds-spinner">
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+        </div>
+      </div>
+      <div class="col text-center" *ngIf="cargando==true">
+        <button type="button" class="btn btn-square btn-primary"  (click)="realizarDesembarco()">
+          Guardar
+        </button>
+      </div>
+      <div *ngIf='data1'>
+        <app-ireimprimir-reception [data]="data1" hidden></app-ireimprimir-reception>
+      </div>
+
+    </app-card>
+  </div>
+</div>

@@ -1,0 +1,105 @@
+<div class="row">
+  <div class="col-sm-12">
+    <app-card cardTitle="REGISTRO DE INGRESOS" [options]="false">
+
+      <div class="col-md-12">
+        <div class="row">
+          <div class="col-lg-2">
+            <label for="">Del:</label>
+            <div class="form-group">
+              <div class="input-group">
+                <input class="form-control" placeholder="fecha" #del="ngbDatepicker" name="del" [(ngModel)]="yesterday"
+                  ngbDatepicker (click)="del.toggle()">
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-2">
+            <label for="">Al:</label>
+            <div class="form-group">
+              <div class="input-group">
+                <input class="form-control" placeholder="fecha" #al="ngbDatepicker" name="al" [(ngModel)]="today"
+                  ngbDatepicker (click)="al.toggle()">
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-2">
+            <label class="form-control-label">TIPO</label>
+            <select class="form-control" [(ngModel)]="data.tipo" name="tipo">
+              <option [value]="i" *ngFor="let i of kind">{{i}}</option>
+            </select>
+          </div>
+          <div class="col-lg-1">
+            <button type="button" class="btn btn-outline-primary" (click)="listado()" style="margin-top: 30px;">
+              <i class="feather icon-search"></i>
+            </button>
+          </div>
+          <div class="col-lg-2">
+            <button type="button" class="btn btn-outline-primary" style="margin-top: 30px;" (click)="exportarXLSX()">
+              <i class="feather icon-printer"></i>A Excel</button>
+          </div>
+          <div class="col-lg-3">
+            <button type="button" class="btn btn-outline-primary" style="margin-top: 30px;" (click)="openModal('ingreso')">
+              <i class="feather icon-edit"></i>Registrar ingresos</button>
+          </div>
+        </div>
+      </div>
+      <br>
+      <br>
+      <div class="row">
+        <div class="table-responsive">
+          <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table  row-border table-hover">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Tipo Transaccion</th>
+                <th>Fecha</th>
+                <th>De</th>
+                <th>Tipo</th>
+                <th>Detalle</th>
+                <th>Monto Transaccion</th>
+                <th>Usuario</th>
+                <th>Imprimir</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of lista">
+                <th>{{item.num_transaccion}}</th>
+                <td>{{item.tipo_transaccion}}</td>
+                <td>{{item.fecha}}</td>
+                <td>{{item.de}}</td>
+                <td>{{item.tipo}}</td>
+                <td>{{item.detalle}}</td>
+                <td>{{item.monto}}</td>
+                <td>{{item.usuario}}</td>
+                <td>
+                  <div *ngIf='cargando==true'>
+                    <button type="button" class="btn btn-icon btn-rounded btn-outline-primary" (click)="imprimir(item.id)"><i class="feather icon-printer"></i></button>
+                  </div>
+                  <div *ngIf='!cargando'>
+                    <div class="lds-spinner">
+                      <div></div>
+                      <div></div>
+                      <div></div>
+                      <div></div>
+                      <div></div>
+                      <div></div>
+                      <div></div>
+                      <div></div>
+                      <div></div>
+                      <div></div>
+                      <div></div>
+                      <div></div>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div *ngIf="dato">
+            <app-iremoney [dato]="dato" hidden></app-iremoney>
+          </div>
+        </div>
+      </div>
+    </app-card>
+  </div>
+</div>

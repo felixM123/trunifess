@@ -1,0 +1,106 @@
+<section id="invoice" style="width: 40%;margin-left: 20px;margin-right: 20px">
+  <div class="container-fluid">
+    <div class="card" *ngIf="destino">
+      <app-iheader [datos]="destino"></app-iheader>
+      <div class="text-center">
+        <p style="font-weight: bolder;font-size: 16px;">COMPROBANTE DE ENTREGA</p>
+      </div>
+      <hr style="margin: 0px;">
+      <div class="text-center">
+        <p style="font-weight: bolder;font-size: 20px; margin-bottom: 10px;">{{data.guia}}</p>
+        <p style="font-weight: bolder;font-size: 20px; margin-bottom: 10px;">{{data.tipo}}</p>
+        
+        <p style="font-size: 20px;">{{data.fecha}}</p>
+
+        <p style="font-size: 20px;">{{data.hora}}</p>
+        <div class="row">
+          <div class="col-6 text-left">
+            <p><b>Origen:</b> {{origen}}</p>
+          </div>
+          <div class="col-6 text-left">
+            <p><b>Destino:</b> {{destino.acronimo}}</p>
+          </div>
+        </div>
+        <div class="text-left">
+        <div *ngIf="data.remitente==null">
+              <p><b>Remitente:</b> {{data.consignatario1}}</p>
+          </div>
+          <div *ngIf="data.remitente">
+              <p><b>Remitente:</b> {{data.remitente}}</p>
+          </div>
+          <p><b>Consignatario:</b> {{data.consignatario}}</p>
+        </div>
+      </div>
+      <hr style="margin: 0px;">
+      <div class="row">
+        <div class="col-4 text-center">
+          <p style="font-weight: bolder;">Cantidad</p>
+        </div>
+        <div class="col-4 text-center">
+          <p style="font-weight: bolder;">P/U</p>
+        </div>
+        <div class="col-4 text-center">
+          <p style="font-weight: bolder;">Total</p>
+        </div>
+      </div>
+      <hr style="margin: 0px;">
+      <div class="row">
+        <div class="col-4 text-center">
+          <p>{{data.cantidad}}</p>
+        </div>
+        <div class="col-4 text-center">
+          <p>{{data.precio_unitario}}</p>
+        </div>
+        <div class="col-4 text-center">
+          <p>{{data.total}}</p>
+        </div>
+      </div>
+      <hr style="margin: 0px;">
+      <div class="row">
+        <div class="col-6 text-right">
+          <p><b>Total Bs. :</b></p>
+        </div>
+        <div class="col-5 text-right">
+          <p><b>{{data.total}}</b></p>
+        </div>
+        <div class="col-6 text-right">
+          <p><b>Efectivo :</b></p>
+        </div>
+        <div class="col-5 text-right">
+          <p>{{data.efectivo}}</p>
+        </div>
+        <div class="col-6 text-right">
+          <p><b>Cambio :</b></p>
+        </div>
+        <div class="col-5 text-right">
+          <p>{{data.cambio}}</p>
+        </div>
+       
+      </div>
+      <hr>
+      <div class="row">
+        <div class="col-12">
+          <p><b>Peso:</b> {{data.peso}}</p>
+        </div>
+        <div class="col-12" style="margin-bottom: 20px">
+          <p><b>Contenido:</b> </p>
+          <p style="margin-left: 30px;">{{data.contenido}}</p>
+        </div>
+      </div>
+      <div class="row">
+          <div class="col">
+              <hr style="margin-bottom: 0">
+              <p style="text-align: center">{{data.nombres}}</p>
+              <p style="text-align: center">CI: {{data.ci}}</p>
+              <p style="text-align: center">Telf: {{data.telefono}}</p>
+            </div>
+           
+        </div>
+        <div class="row" *ngIf="data.usuario">
+          <div class="col-12">
+            <p><b>Usuario: {{data.usuario}}</b></p>
+          </div>
+        </div>
+    </div>
+  </div>
+</section>

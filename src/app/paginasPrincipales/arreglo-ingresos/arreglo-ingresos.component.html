@@ -1,0 +1,3 @@
+<label>{{list[dato]}}</label>
+<input type="text" class="form-control input-md" name="{{list[dato]}}" [(ngModel)]="list[dato]=='total'?total:objeto.numero" (keyup)='enviarDatos(dato)'
+  [disabled]="list[dato]=='total'?true:false">

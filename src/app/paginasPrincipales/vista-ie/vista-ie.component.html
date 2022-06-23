@@ -1,0 +1,26 @@
+<div class="row">
+  <div class="col-sm-12">
+    <app-card cardTitle="IMPRIMIR INGRESO EFECTIVO" [options]="false" *ngIf="dato">
+      <div class="col-md-12">
+        <div class="row">
+          <div class="col-lg-3">
+
+          </div>
+            <div class="col-lg-3">
+              <button type="button" class="btn btn-primary" (click)="imprimir()">
+                <i class="feather icon-search"></i>IMPRIMIR
+              </button>
+            </div>
+            <div class="col-lg-4">
+              <button type="button" class="btn btn-primary" aria-label="Close" (click)="volver()">
+                <i class="feather icon-plus-circle"></i>NUEVA INGRESO EFECTIVO
+              </button>
+            </div>
+            <br>
+            <br>
+              <app-iremoney [dato]="dato"></app-iremoney>
+        </div>
+      </div>
+    </app-card>
+  </div>
+</div>

@@ -1,0 +1,77 @@
+<div class="row">
+  <div class="col-sm-12">
+    <app-card cardTitle={{titulo}} [options]="false">
+      <form (ngSubmit)="onSubmit()" #regularForm="ngForm">
+        <div class="row">
+          <div class="col-sm-10 center ">
+            <div class="form-group">
+              <label for="cliente">Nombre Comercial:</label>
+              <input type="text" class="form-control" style="text-transform: uppercase;" name="nombre" [(ngModel)]="cliente.nombre_comercial" required
+                placeholder="Nombre Comercial" />
+            </div>
+            <div class="form-group">
+              <label for="consignatario">Contacto:</label>
+              <input type="text" class="form-control" style="text-transform: uppercase;" name="contacto" [(ngModel)]="cliente.contacto" required
+                placeholder="Contacto" />
+            </div>
+            <div class="form-group">
+              <label for="consignatario">Pais:</label>
+              <input type="text" class="form-control" style="text-transform: uppercase;" name="pais" [(ngModel)]="cliente.id_pais" required
+                placeholder="Pais" />
+            </div>
+            <div class="form-group">
+              <label for="remitente">Departamento:</label>
+              <input type="text" class="form-control" style="text-transform: uppercase;" name="departamento" [(ngModel)]="cliente.id_departamento" required
+                placeholder="Departamento" />
+            </div>
+            <div class="form-group">
+              <label for="consignatario">Localidad:</label>
+              <input type="text" class="form-control" name="localidad" style="text-transform: uppercase;" [(ngModel)]="cliente.id_localidad" required
+                placeholder="Localidad" />
+            </div>
+            <div class="form-group">
+              <label for="cliente">Direccion:</label>
+              <input type="text" class="form-control" name="direccion" style="text-transform: uppercase;" [(ngModel)]="cliente.direccion" required
+                placeholder="Direccion" />
+            </div>
+            <div class="form-group">
+              <label for="consignatario">Telefonos:</label>
+              <input type="text" class="form-control" name="telefonos" [(ngModel)]="cliente.telefonos" required
+                placeholder="Telefonos" />
+            </div>
+            <div class="form-group">
+              <label for="consignatario">Limite de Credito:</label>
+              <input type="text" class="form-control" name="credito" [(ngModel)]="cliente.limite_credito" required
+                placeholder="Limite de Credito" />
+            </div>
+            <div class="form-group">
+              <label for="remitente">NIT</label>
+              <input type="text" class="form-control" name="nit" [(ngModel)]="cliente.nit" required placeholder="NIT" />
+            </div>
+            <div class="form-group">
+              <label for="consignatario">Nombre para Factura</label>
+              <input type="text" class="form-control" style="text-transform: uppercase;" name="factura" [(ngModel)]="cliente.nombre_factura" required
+                placeholder="Nombre para Factura" />
+            </div>
+            <div class="form-group">
+              <div class="row">
+                <div class="col-6 d-flex justify-content-center">
+                  <button type="submit" class="btn btn-success" style="width: 30%"
+                    [disabled]="!regularForm.valid">
+                    {{boton}}
+                  </button>
+                </div>
+                <div class="col-6 d-flex justify-content-center">
+                  <button type="button" class="btn btn-outline-danger" style="width: 30%" (click)="volver()">
+                    Cancelar
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </app-card>
+  </div>
+</div>
+

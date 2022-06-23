@@ -1,0 +1,75 @@
+<div class="row">
+  <div class="col-sm-12">
+    <app-card cardTitle="Anular Recepcion" [options]="false">
+      <div class="col-md-12">
+        <div class="row">
+          <div class="col-lg-4">
+            <label for="">Numero de Guia:</label>
+            <input class="form-control" name="guia" type='text' style="text-transform: uppercase" placeholder="Numero de guia" [(ngModel)]="guia.numero_guia" />
+          </div>
+          <div class="col-lg-3">
+            <div *ngIf='!cargando'>
+              <div class="lds-spinner">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+              </div>
+            </div>
+            <div *ngIf='cargando==true'>
+              <button type="button" class="btn btn-outline-primary margen" (click)="buscar()"><i class="feather icon-search"></i></button>
+            </div>
+          </div>
+          <div class="col-lg-5">
+            <label for="">Observacion:</label>
+            <input class="form-control" name="observacion" type='text'  placeholder="Observacion Obligatorio" [(ngModel)]="guia.observacion" required/>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="table-responsive">
+          <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table  row-border table-hover">
+            <thead >
+              <tr class="text-white" style="background:rgb(58, 199, 241); ;">
+                <th>FECHA</th>
+                <th>TRANSACCION</th>
+                <th>ORIGEN</th>
+                <th>DESTINO</th>
+                <th>CANTIDAD</th>
+                <th>TOTAL</th>
+                <th>CONTENIDO</th>
+                <th>REMITENTE</th>
+                <th>CONSIGNATARIO</th>
+                <th>Anular</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of datos">
+                <td>{{item.fecha}}</td>
+                <td>{{item.tipo_transaccion}}</td>
+                <td>{{item.origen}}</td>
+                <td>{{item.destino}}</td>
+                <td>{{item.piezas | number}}</td>
+                <td>{{item.monto}}</td>
+                <td>{{item.descripcion}}</td>
+                <td>{{item.remitente}}</td>
+                <td>{{item.consignatario}}</td>
+                <td>
+                  <button type="button" class="btn btn-icon btn-rounded btn-outline-danger" (click)='eliminar()'><i class="feather icon-x-circle"></i></button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </app-card>
+  </div>
+</div>

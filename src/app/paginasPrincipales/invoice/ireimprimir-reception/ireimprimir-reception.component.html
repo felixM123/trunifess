@@ -1,0 +1,113 @@
+<section id="invoice" style="width: 40%;margin-left: 20px;margin-right: 20px">
+  <div class="container-fluid">
+      <div class="card" *ngIf="data.fecha">
+         <app-iheader [datos]="destino" *ngIf="data.tipo=='DESEMBARCO'"></app-iheader>
+          <app-iheader [datos]="data.origen" *ngIf="data.tipo=='EMBARQUE'"></app-iheader>
+          <div class="text-center">
+              <p style="font-weight: bolder;font-size: 16px;text-transform: uppercase;">{{data.tipo}}</p>
+          </div>
+          <hr style="margin: 0px;">
+          <div class="text-center">
+              <p style="font-weight: bolder;font-size: 28px; margin-bottom: 10px;">{{data.transaccion}}</p>
+
+              <p style="font-size: 20px;">{{dateFormat()}}</p>
+
+              <p style="font-size: 20px;">{{data.hora}}</p>
+              <div class="row" *ngIf="data.tipo=='DESEMBARCO'">
+                <div class="col-6 text-left" *ngIf="destino">
+                    <p><b>Destino:</b> {{destino.acronimo}}</p>
+                </div>
+                <div class="col-6 text-left">
+                    <p><b>Origen:</b> {{origen}}</p>
+                </div>
+            </div>
+            <div class="row" *ngIf="data.tipo=='EMBARQUE'">
+                <div class="col-6 text-left">
+                    <p><b>Origen:</b> {{data.origen.acronimo}}</p>
+                </div>
+                <div class="col-6 text-left">
+                    <p><b>Destino:</b> {{acronimoD}}</p>
+                </div>
+            </div>
+              <div class="text-left" style="margin-bottom: 10px;">
+                  <p><b>Camion:</b> {{data.camion}}</p>
+                  <p><b>Chofer:</b> {{data.chofer}}</p>
+              </div>
+          </div>
+          <hr style="margin: 0px;">
+          <div class="row">
+
+              <div class="col-4  text-center">
+                  <p style="font-weight: bolder;" class="item">Guia</p>
+              </div>
+              <div class="col-4 text-center">
+                  <p style="font-weight: bolder;" class="item">Cantidad</p>
+              </div>
+              <div class="col-4 text-center">
+                  <p style="font-weight: bolder;" class="item">Tipo</p>
+              </div>
+
+          </div>
+          <hr style="margin: 0px;">
+          <div class="row" *ngFor="let item of data.embarco" style="border:1px solid #000000;">
+
+              <div class="col-4 text-center">
+                  <p style="font-size: 20px">{{item.guia}}</p>
+              </div>
+              <div class="col-4 text-center">
+                  <p class="item">{{item.cantidad}}</p>
+              </div>
+              <div class="col-4 text-center" *ngIf="item.tipo=='POR PAGAR EN DESTINO'">
+                  <p class="item">XP</p>
+              </div>
+              <div class="col-4 text-center" *ngIf="item.tipo=='PAGADO'">
+                  <p class="item">P</p>
+              </div>
+                  <div class="col-1 text-center" >
+
+                  </div>
+                  <div class="col-1 text-center"  style="border:1px solid #000000;height: 25px;">
+
+                  </div>
+                  <div class="col-8 text-center">
+                      <p class="item">{{item.contenido}}</p>
+                  </div>
+                  <div class="col-1 text-center"   style="border:1px solid #000000;height: 25px;">
+
+                  </div>
+                  <div class="col-1 text-center" >
+
+                  </div>
+
+              <hr style="margin: 0px;">
+          </div>
+          <hr style="margin: 0px;">
+          <div class="row">
+              <div class="col-6">
+                  <p><b>Cantidad Total Encomiendas :</b></p>
+              </div>
+              <div class="col-6">
+                  <p><b>{{data.total}}</b></p>
+              </div>
+          </div>
+
+          <hr style="margin: 0px;">
+          <div class="row">
+            <div class="col-6">
+                <p><b>Cantidad Total paquetes :</b></p>
+            </div>
+            <div class="col-6">
+                <p><b>{{data.totalPaquetes}}</b></p>
+            </div>
+        </div>
+
+          <hr style="margin: 0px;">
+            <div class="row">
+              <div class="col-12 text-center">
+                <p><b>Usuario: {{data.usuario_id}}</b></p>
+              </div>
+            </div>
+
+      </div>
+  </div>
+</section>

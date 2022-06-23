@@ -1,0 +1,134 @@
+<div class="row">
+  <div class="col-sm-12">
+    <app-card cardTitle="EMBARQUE" [options]="false">
+      <form (ngSubmit)="onSubmit()" #regularForm="ngForm">
+        <div class="row">
+          <div class="col-lg-3">
+            <label for="">Agencia Destino:</label>
+            <select class="form-control" #destino="ngModel" name="destino" [(ngModel)]="destino_id" required>
+              <option value="0" selected> Seleccione su Destino</option>
+              <option *ngFor="let agen of agencias" [value]="agen.id">
+                {{agen.nombre}}
+              </option>
+            </select>
+          </div>
+          <div class="col-lg-3">
+            <label for="">Camion:</label>
+            <select class="form-control" #camion="ngModel" name="camion" [(ngModel)]="camion_id" required>
+              <option value="0" selected> Seleccione Camion</option>
+              <option *ngFor="let cam of camiones" [value]="cam.id">
+                {{cam.modelo}}
+              </option>
+            </select>
+          </div>
+          <div class="col-lg-3">
+            <label for="">Chofer:</label>
+            <select class="form-control" name="chofer" #chofer="ngModel" [(ngModel)]="chofer_id"
+              (ngModelChange)="obtenerRelevo()" required>
+              <option value="0" selected> Seleccione Chofer</option>
+              <option *ngFor="let cho of choferes" [value]="cho.id">
+                {{cho.nombre}}
+              </option>
+            </select>
+          </div>
+          <div class="col-lg-3">
+            <label for="">Relevo:</label>
+            <select class="form-control" name="relevo" #relevo="ngModel" [(ngModel)]="relevo_id" required>
+              <option value="0" selected> Seleccione Relevo</option>
+              <option *ngFor="let re of relevos" [value]="re.id">
+                {{re.nombre}}
+              </option>
+            </select>
+          </div>
+        </div>
+        <br>
+        <br>
+        <div class="row">
+          <div class=" col-lg-3">
+            <label for="">Observacion:</label>
+            <input type="text" class="form-control" name="observacion" #observacion="ngModel"
+              [(ngModel)]="observaciones" />
+          </div>
+          <div class="col-lg-4">
+            <label for="">Buscador de recepciones:</label>
+            <input type="text" class="form-control" name="numeroDeGuia" disabled />
+          </div>
+
+          <div class="col-lg-2 borde">
+            <button type="button" class="btn btn-outline-primary" (click)="openModal(customContent)"><i
+                class="feather icon-search"></i></button>
+          </div>
+        </div>
+        <ng-template #customContent let-c="close" let-d="dismiss">
+          <div class="modal-header">
+            <h4 class="modal-title ">BUSCADOR DE RECEPCIONES</h4>
+            <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+              <span aria-hidden="true">&times;</span>
+            </button>
+
+          </div>
+          <app-search-recepcion [agencia]="destino_id" (objectSelected)="dataRecovery($event)"></app-search-recepcion>
+        </ng-template>
+        <div class="row">
+          <div class="table-responsive">
+            <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table  row-border table-hover">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>NUMERO GUIA</th>
+                  <th>CONTENIDO</th>
+                  <th>DESTINO</th>
+                  <th>SALDO</th>
+                  <th>CANTIDAD</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of rows  ;index as i">
+                  <th scope="row">{{ i + 1 }}</th>
+                  <td>{{item.guia}}</td>
+                  <td>{{item.contenido}}</td>
+                  <td>{{item.destino}}</td>
+                  <td *ngIf="item.saldo==item.cantidad">0</td>
+                  <td *ngIf="item.saldo!=item.cantidad">{{item.saldo}}</td>
+                  <td>
+                    <input type="text" value="{{item.cantidad}}" (keyup)="updateValue($event,i)"
+                      (click)="valor = rows[i].saldo">
+                  </td>
+                  <td>
+                    <a (click)="selectData(i)"><i class="fas fa-trash" style="color: #DC143C"></i></a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <p><b>{{cantidad}} recepciones</b></p>
+        <div class="col text-center" *ngIf="!cargando">
+          <div class="lds-spinner">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+          </div>
+        </div>
+        <div class="col text-center" *ngIf="cargando==true">
+          <button type="submit" class="btn btn-square btn-primary" [disabled]="!regularForm.form.valid">Guardar</button>
+        </div>
+      </form>
+      <div *ngIf="data">
+        <app-ireimprimir-reception [data]="data" hidden></app-ireimprimir-reception>
+      </div>
+
+    </app-card>
+  </div>
+</div>

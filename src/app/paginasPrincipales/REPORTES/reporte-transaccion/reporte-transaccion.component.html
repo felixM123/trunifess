@@ -1,0 +1,285 @@
+<div class="row">
+  <div class="col-sm-12">
+    <app-card cardTitle={{titulo}}  [options]="false">
+      <div class="col-md-12">
+        <div class="row">
+          <div class="col-lg-2">
+            <label for="">Del:</label>
+            <div class="form-group">
+              <div class="input-group">
+                <input class="form-control" placeholder="fecha" #del="ngbDatepicker" name="del" [(ngModel)]="yesterday"
+                  ngbDatepicker (click)="del.toggle()">
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-3">
+            <label for="">Al:</label>
+            <div class="form-group">
+              <div class="input-group">
+                <input class="form-control" placeholder="fecha" #al="ngbDatepicker" name="al" [(ngModel)]="today"
+                  ngbDatepicker (click)="al.toggle()" />
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-3">
+            <label class="form-control-label">Usuarios</label>
+            <select class="form-control" name="usuarios" [(ngModel)]="usuario_id">
+              <option value="0" selected> Todas </option>
+              <option *ngFor="let item of usuarios" [value]="item.id">{{item.name}}</option>
+            </select>
+          </div>
+          <div class="col-lg-4">
+            <div class="card text-center" style="background:rgb(58, 199, 241); ;">
+              <h5 class="text-white mb-2">Total caja</h5>
+              <h3 class="text-white mb-3 f-w-300">{{totalCaja}}Bs</h3>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-12" *ngIf='agen1'>
+        <div class="row">
+          <div class="col-lg-6">
+            <label class="form-control-label">Agencias</label>
+                <select class="form-control" name="agen_id"  [(ngModel)]="agen_id">
+                  <option value="0" selected> Seleccione su Agencia</option>
+                  <option *ngFor="let item of agencias" [value]="item.id">
+                    {{item.nombre}}
+                  </option>
+                </select>
+          </div>
+        </div>
+      </div>
+      <br>
+      <br>
+      <div class="col-md-12">
+        <div class="row text-center">
+          <div class="col-lg-4">
+            <div *ngIf='!cargando' class="text-center">
+              <div class="lds-spinner">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+              </div>
+            </div>
+            <div *ngIf='cargando==true'>
+              <button type="button" class="btn btn-outline-primary" (click)="generalReporte()"><i
+                class="feather icon-check-circle"></i>Procesar</button>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <button type="button" class="btn btn-outline-primary" (click)="XLSXexportar()"><i class="feather icon-file"></i>A Excel</button>
+          </div>
+          <div class="col-lg-4">
+            <button type="button" class="btn btn-outline-primary" (click)="total()"><i class="feather icon-file-text"></i>Total Caja</button>
+          </div>
+        </div>
+      </div>
+      <br>
+      <br>
+      <!-- REPORTE RECEPCION----TOTAL---- -->
+      <div class="row">
+        <div class="table-responsive">
+          <div class="col-md-12">
+            <div class="row">
+              <div class="col-lg-3">
+                <h4 class="text-center">Reporte Recepcion</h4>
+              </div>
+              <div class="col-lg-7">
+              </div>
+              <div class="col-lg-2">
+                <div class="card theme-bg2 bitcoin-wallet text-center">
+                  <h5 class="text-white mb-2">Total recepcion</h5>
+                  <h4 class="text-white mb-3 f-w-300">{{totalRecepcion}}Bs</h4>
+                </div>
+              </div>
+            </div>
+          </div>
+          <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table  row-border table-hover">
+            <thead>
+              <tr class="theme-bg2 text-white">
+                <th>#</th>
+                <th>Guia</th>
+                <th>Fecha</th>
+                <th>Hora</th>
+                <th>Tipo Transaccion</th>
+                <th>Tipo</th>
+                <th>Monto</th>
+                <th>Observacion</th>
+                <th>Usuario</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of reporteT,index as id">
+                <th class="theme-bg2 text-white">{{id+1}}</th>
+                <td >{{ item.numero_guia }}</td>
+                <td>{{ item.fecha }}</td>
+                <td>{{item.hora}}</td>
+                <td>{{ item.tipo_transaccion }}</td>
+                <td>{{ item.tipo }}</td>
+                <td>{{ item.monto }}</td>
+                <td>{{ item.observacion }}</td>
+                <td>{{item.usuario}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <br>
+      <br>
+
+      <!-- REPORTE ENTREGADO------TOTAL----- -->
+      <div class="row">
+        <div class="table-responsive">
+          <div class="col-md-12">
+            <div class="row">
+              <div class="col-lg-3">
+                <h4 class="text-center">Reporte Entregado</h4>
+              </div>
+              <div class="col-lg-7">
+              </div>
+              <div class="col-lg-2">
+                <div class="card bg-c-blue bitcoin-wallet text-center">
+                  <h5 class="text-white mb-2">Total entregado</h5>
+                  <h4 class="text-white mb-3 f-w-300">{{totalEntregado}}Bs</h4>
+                </div>
+              </div>
+            </div>
+          </div>
+          <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table  row-border table-hover">
+            <thead>
+              <tr class="bg-c-blue text-white">
+                <th>#</th>
+                <th >Guia</th>
+                <th >Fecha</th>
+                <th >Hora</th>
+                <th >Tipo Transaccion</th>
+                <th >Tipo</th>
+                <th >Monto</th>
+                <th >Observacion</th>
+                <th >Usuario</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of reporteE,index as id">
+                <th class="bg-c-blue text-white">{{id+1}}</th>
+                <td >{{ item.numero_guia }}</td>
+                <td>{{ item.fecha }}</td>
+                <td>{{item.hora}}</td>
+                <td>{{ item.tipo_transaccion }}</td>
+                <td>{{ item.tipo }}</td>
+                <td>{{ item.monto }}</td>
+                <td>{{ item.observacion }}</td>
+                <td>{{item.usuario}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <br>
+      <br>
+      <!-- REPORTE INGRESO EFECTIVO----TOTAL -->
+      <div class="row">
+        <div class="table-responsive">
+          <div class="col-md-12">
+            <div class="row">
+              <div class="col-lg-3">
+                <h4 class="text-center">Reporte Ingreso Efectivo</h4>
+              </div>
+              <div class="col-lg-6">
+              </div>
+              <div class="col-lg-3">
+                <div class="card text-center" style="background: rgb(119, 223, 255);">
+                  <h5 class="text-white mb-2">Total ingresos</h5>
+                  <h4 class="text-white mb-3 f-w-300">{{totalIngreso}}Bs</h4>
+                </div>
+              </div>
+            </div>
+          </div>
+          <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table  row-border table-hover">
+            <thead>
+              <tr class="text-white" style="background: rgb(119, 223, 255);">
+                <th>#</th>
+                <th >Guia</th>
+                <th >Fecha</th>
+                <th >Tipo Transaccion</th>
+                <th >Tipo</th>
+                <th >Monto</th>
+                <th >Observacion</th>
+                <th >Usuario</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of reporteI,index as id">
+                <th class="text-white" style="background: rgb(119, 223, 255);">{{id+1}}</th>
+                <td >{{ item.num_transaccion }}</td>
+                <td>{{ item.fecha }}</td>
+                <td>{{ item.tipo_transaccion }}</td>
+                <td>{{ item.tipo }}</td>
+                <td>{{ item.monto }}</td>
+                <td>{{ item.detalle}}</td>
+                <td>{{item.usuario}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <br>
+      <br>
+      <!-- REPORTE SALIDA DE EFECTIVO----TOTAL -->
+      <div class="row">
+        <div class="table-responsive">
+          <div class="col-md-12">
+            <div class="row">
+              <div class="col-lg-3">
+                <h4 class="text-center">Reporte Salida de Efectivo</h4>
+              </div>
+              <div class="col-lg-6">
+              </div>
+              <div class="col-lg-3">
+                <div class="card text-center" style="background: rgb(255, 120, 115);">
+                  <h5 class="text-white mb-2">Total salida de efectivo</h5>
+                  <h4 class="text-white mb-3 f-w-300">{{totalSalida}}Bs</h4>
+                </div>
+              </div>
+            </div>
+          </div>
+          <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table  row-border table-hover">
+            <thead>
+              <tr class="text-white" style="background: rgb(255, 120, 115);">
+                <th>#</th>
+                <th >Guia</th>
+                <th >Fecha</th>
+                <th >Tipo Transaccion</th>
+                <th >Tipo</th>
+                <th >Monto</th>
+                <th >Observacion</th>
+                <th >Usuario</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of reporteS,index as id">
+                <th class="text-white" style="background: rgb(255, 120, 115);">{{id+1}}</th>
+                <td >{{ item.num_transaccion }}</td>
+                <td>{{ item.fecha }}</td>
+                <td>{{ item.tipo_transaccion }}</td>
+                <td>{{ item.tipo }}</td>
+                <td>{{ item.monto }}</td>
+                <td>{{ item.detalle}}</td>
+                <td>{{item.usuario}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </app-card>
+  </div>
+</div>

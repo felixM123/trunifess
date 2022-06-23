@@ -1,0 +1,89 @@
+<section id="invoice" style="width: 40%;margin-left: 25px;margin-right: 25px" >
+    <div class="container-fluid">
+      <div class="card">
+          <app-iheader [datos]="destino" *ngIf="destino"></app-iheader>
+        
+            <div class="text-center">
+                <p style="font-weight: bolder;font-size: 20px;">{{dato.titulo}}</p>
+              </div>
+              <hr style="margin: 0px;">
+          <div class="row no-gutters">
+              <div class="col-12 text-center">
+                  <div class="col-12 text-center">
+                    <br>
+                <p style=" font-weight: bolder;font-size: 30px; margin-bottom: 10px;">{{dato.numero_transaccion1}}</p>
+              </div>
+          </div>
+          </div>
+         
+        
+        <hr>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-8">
+                <p><b>Para: </b>{{dato.para}}.</p>
+            </div>
+            <div class="col-8">
+                <p><b>Por el siguiente detalle: </b></p>
+            </div>
+           
+            <div class="col-8">
+                <p><b>Fecha: </b>{{dato.fecha}} {{dato.hora1}} </p>
+            </div>
+             <div class="col-8">
+                <p><b>Tipo: </b> {{dato.tipo}}</p>
+  
+             </div>
+             
+              <div class="col-8">
+                  <p><b>Detalle: </b>{{dato.detalle}}</p>
+              </div>
+              
+              
+              <br>
+          </div>
+          
+          <hr style="margin: 0px;">
+          <div class="row">
+              <div class="col-8 text-center">
+                  <p style="font-weight: bolder;">Nombre</p>
+              </div>
+              <div class="col-4 text-center">
+                  <p style="font-weight: bolder;">valor</p>
+              </div>
+              
+          </div>
+          <hr style="margin: 0px;">
+          <div class="row" *ngFor="let item of dato.detalles">
+              <div class="col-8 text-center">
+                  <p class="item">{{item.nombre}}</p>
+              </div>
+              <div class="col-4 text-center">
+                  <p class="item">{{item.valor}}</p>
+              </div>
+          </div>
+          <div class="row">
+            <div class="col-8" >
+                <p style="font-size: 20px"><b>Monto (Bs.): </b>{{dato.monto}}</p>
+            </div>
+            <div class="col-12">
+                <p>{{dato.literal}}</p>
+            </div>
+              
+          </div>
+          
+          <p>Para su constancia le rogamos firmar adjunto.</p>
+          <div class="row" style="margin-top: 60px;">
+            <div class="col">
+              <hr style="margin-bottom: 0">
+              <p style="text-align: center">{{dato.de}}</p>
+            </div>
+            <div class="col">
+                <hr style="margin-bottom: 0">
+                <p style="text-align: center">{{dato.para}}</p>
+            </div>
+          </div>
+      </div>
+      </div>
+    </div>
+  </section>

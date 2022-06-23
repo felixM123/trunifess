@@ -1,0 +1,38 @@
+<div class="row">
+  <div class="col-sm-12">
+    <app-card cardTitle="Lista de Agencias">
+      <div class="row">
+        <div class="table-responsive">
+          <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table  row-border table-hover">
+            <thead>
+              <tr class="text-white" style="background:rgb(13, 177, 136); ;">
+                <th >#</th>
+                <th>Codigo</th>
+                <th>Nombre</th>
+                <th>Direccion</th>
+                <th>Telefonos</th>
+                <th>Pais</th>
+                <th>Acronimo</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of agencias,index as id">
+                <td >{{id+1}}</td>
+                <td>{{item.codigo}}</td>
+                <td>{{item.nombre}}</td>
+                <td>{{item.direccion}}</td>
+                <td>{{item.telefonos}}</td>
+                <td>{{item.alcaldia}}</td>
+                <td>{{item.acronimo}}</td>
+                <td>
+                  <button type="button" class="btn btn-icon btn-rounded btn-outline-success" (click)='editar(item.codigo)'><i class="feather icon-edit"></i></button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </app-card>
+  </div>
+</div>

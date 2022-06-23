@@ -1,0 +1,36 @@
+<div class="row">
+  <div class="col-sm-12">
+    <app-card cardTitle={{titulo}} [options]="false">
+      <form (ngSubmit)="onSubmit()" #regularForm="ngForm">
+        <div class="row">
+          <div class="col-sm-10 center ">
+            <div class="form-group">
+              <label for="cliente">Modelo:</label>
+              <input type="text" class="form-control" name="modelo" ng-model="modelo"  [(ngModel)]="camion.nombre_comercial" required
+                placeholder="Modelo" />
+            </div>
+            <div class="form-group">
+              <label for="consignatario">Placa:</label>
+              <input type="text" class="form-control" name="placa"  [(ngModel)]="camion.contacto" required
+                placeholder="Placa" onkeyup="javascript:this.value=this.value.toUpperCase();" />
+            </div>
+            <div class="form-group">
+              <div class="row">
+                <div class="col-6 d-flex justify-content-center">
+                  <button type="submit" class="btn btn-success btn-raised" style="width: 30%" [disabled]="!regularForm.valid">
+                    {{boton}}
+                  </button>
+                </div>
+                <div class="col-6 d-flex justify-content-center">
+                  <button type="button" class="btn btn-danger btn-raised" style="width: 30%" (click)="volver()">
+                    Cancelar
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </app-card>
+  </div>
+</div>

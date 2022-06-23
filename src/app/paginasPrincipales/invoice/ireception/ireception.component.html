@@ -1,0 +1,116 @@
+<section id="invoice-1" >
+
+    <div class="container-fluid " [ngClass]="estilo == 'imprimir' ? 'general':'modal3'" *ngIf="destino">
+      <div class="card">
+        <app-iheader [datos]="destino"></app-iheader>
+        <div class="text-center">
+          <p style="font-weight: bolder;font-size: 16px;">ORDEN DE ENVIO</p>
+          <p style="font-weight: bolder;font-size: 20px;" *ngIf="datos.xpd=='POR PAGAR EN DESTINO'">{{datos.xpd}}</p>
+          <p style="font-weight: bolder;font-size: 20px;" *ngIf="datos.xpd=='PAGADO'">{{datos.xpd}}</p>
+        </div>
+        <hr style="margin: 0px;">
+        <div class="row no-gutters">
+          <div class="col-12 text-center">
+              <div class="col-12 text-center">
+                  <p style="font-weight: bolder;font-size: 20px; margin-bottom: 10px;">{{datos.guia}}</p>
+
+                </div>
+
+          </div>
+          <div class="col-4">
+            <p><b>Fecha:</b></p>
+          </div>
+          <div class="col-4">
+            <p>{{dateFormat()}}</p>
+          </div>
+          <div class="col-4">
+            <p>{{datos.hora}}</p>
+          </div>
+          <div class="row">
+            <div class="col-6">
+              <p><b>Origen:</b> {{destino.acronimo}}</p>
+            </div>
+            <div class="col-6">
+              <p><b>Destino:</b> {{origen}}</p>
+            </div>
+            <div class="col-12">
+              <p><b>Remitente:</b> {{datos.remitente}}</p>
+              <p><b>Consignatario:</b> {{datos.consignatario}}</p>
+              <p><b>Telefono:</b> {{datos.telefono_consignatario}}</p>
+            </div>
+          </div>
+        </div>
+        <hr style="margin: 0px;">
+        <div class="row">
+          <div class="col-4 text-center">
+            <p style="font-weight: bolder;">Cantidad</p>
+          </div>
+          <div class="col-4 text-center">
+            <p style="font-weight: bolder;">P/U</p>
+          </div>
+          <div class="col-4 text-center">
+            <p style="font-weight: bolder;">Total</p>
+          </div>
+        </div>
+        <hr style="margin: 0px;">
+        <div class="row">
+          <div class="col-4 text-center">
+            <p>{{datos.cantidad}}</p>
+          </div>
+          <div class="col-4 text-center">
+            <p>{{datos.precio_unitario}}</p>
+          </div>
+          <div class="col-4 text-center">
+            <p>{{datos.total}}</p>
+          </div>
+        </div>
+        <div class="row">
+
+          <div class="col-12">
+            <p><b>Peso: </b>{{datos.peso}}</p>
+          </div>
+          <div class="col-12">
+            <p><b>Contenido:</b></p>
+            <p style="margin-left: 30px;font-size: 15px;">{{datos.contenido}}</p>
+            <p style="margin-left: 30px;font-size: 15px;">{{datos.observacion}}</p>
+          </div>
+        </div>
+        <hr style="margin: 0px;">
+        <div class="row">
+          <div class="col-6 text-right">
+            <p><b>Total Bs. :</b></p>
+          </div>
+          <div class="col-5 text-right">
+            <p><b>{{datos.total}}</b></p>
+          </div>
+          <div class="col-6 text-right">
+            <p><b>Efectivo :</b></p>
+          </div>
+          <div class="col-5 text-right">
+            <p> {{datos.efectivo}}</p>
+          </div>
+          <div class="col-6 text-right">
+            <p><b>Cambio :</b></p>
+          </div>
+          <div class="col-5 text-right">
+            <p>{{datos.cambio}}</p>
+          </div>
+          <div class="col-12 text-center">
+            <p><b>Son:</b> {{letras}}</p>
+          </div>
+        </div>
+        <hr>
+          <div class="row"  *ngIf="datos.usuario">
+            <div class="col-12">
+              <p><b>Usuario: {{datos.usuario}}</b></p>
+            </div>
+          </div>
+          <div *ngIf="datos.usuario_id" >
+              <app-ifooter></app-ifooter>
+          </div>
+          <hr>
+          <p>QR:<ngx-qrcode [qrc-value]="datos.guia"  [qrc-version]=5 [qrc-correction-level]="'L'"></ngx-qrcode></p>
+      </div>
+    </div>
+
+</section>

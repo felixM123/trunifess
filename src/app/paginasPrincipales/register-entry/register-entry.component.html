@@ -1,0 +1,166 @@
+<div class="row text-left">
+  <div class="col-sm-12">
+    <div class="card" style="margin-left: 0px !important;padding-left: 0px !important;">
+      <div class="card-header">
+        <h4 class="card-title">{{titulo}}</h4>
+      </div>
+      <ng-template #content let-modal>
+        <div class="modal-header">
+          <h4 class="modal-title" id="modal-title">{{titulo}}</h4>
+        </div>
+        <div class="modal-body">
+          <h3>{{mensaje}}</h3>
+        </div>
+        <div class="modal-footer">
+
+          <button type="button" class="btn btn-success" style="color:#fff !important" (click)="modal.close('Ok')">Aceptar</button>
+        </div>
+      </ng-template>
+      <div class="card-body">
+        <form #regularForm="ngForm">
+          <div class="card-block">
+            <h6 class="card-subtitle text-muted">DATOS DEL PERSONAL</h6>
+            <div class="form-group">
+              <div class="row">
+                <div class="col-md-6" *ngIf="tipoT== 'TIPO DE EGRESO' ">
+                  <label for="cliente">DE:</label>
+                  <input type="text" class="form-control" name="de" required placeholder="Nombre" disabled
+                    [(ngModel)]="registro.de"  />
+                </div>
+                <div class="col-md-6" *ngIf="tipoT== 'TIPO DE EGRESO' ">
+                    <label for="cliente">PARA:</label>
+                    <input type="text" style="text-transform: uppercase" class="form-control" name="para" required placeholder="Nombre"
+                      [(ngModel)]="registro.para"
+                      [ngbTypeahead]="search"
+
+                      (focus)="focus.next($event.target.value)"
+                      (click)="click.next($event.target.value)"
+
+                      #instance="ngbTypeahead"/>
+                  </div>
+                  <div class="col-md-6" *ngIf="tipoT== 'TIPO DE INGRESO' ">
+                    <label for="cliente">DE:</label>
+                    <input type="text" class="form-control"  style="text-transform: uppercase"  name="de" required placeholder="Nombre"
+                      [(ngModel)]="registro.de" [ngbTypeahead]="search1"
+
+                      (focus)="focus1.next($event.target.value)"
+                      (click)="click1.next($event.target.value)"
+
+                      #instance="ngbTypeahead"/>
+                  </div>
+                  <div class="col-md-6" *ngIf="tipoT== 'TIPO DE INGRESO' ">
+                      <label for="cliente">PARA:</label>
+                      <input type="text" style="text-transform: uppercase" class="form-control" name="para" required placeholder="Nombre"
+                        [(ngModel)]="registro.para" disabled />
+                    </div>
+              </div>
+
+              <div class="form-group">
+                  <label class="form-control-label">{{tipoT}}</label>
+                  <fieldset class="form-group">
+                      <select class="form-control" [(ngModel)]="registro.tipo" name="tipo">
+                          <option [value]="i" *ngFor="let i of kind">{{i}}</option>
+
+                      </select>
+                  </fieldset>
+
+              </div>
+            </div>
+          </div>
+          <div class="card-block">
+            <div class="form-group">
+              <div class="row">
+                <div class="col-sm-12 col-lg-4" *ngIf="tipoT==='TIPO DE INGRESO'">
+                  <label for="">FECHA DE {{fechaT}}:</label>
+                  <div class="form-group">
+                    <div class="input-group">
+                      <input class="form-control" placeholder="fecha" #del="ngbDatepicker" name="del"
+                        [(ngModel)]="fecha" ngbDatepicker (click)="del.toggle()" >
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-12 col-lg-4" *ngIf="tipoT==='TIPO DE EGRESO'">
+                  <label for="">FECHA DE {{fechaT}}:</label>
+                  <div class="form-group">
+                    <div class="input-group">
+                      <input class="form-control" placeholder="fecha" #del="ngbDatepicker" name="del"
+                        [(ngModel)]="fecha" ngbDatepicker (click)="del.toggle()" disabled>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-12 col-lg-4">
+                  <label for="total">Total</label>
+                    <input  class="form-control input-md" type="text" id="monto" name="monto"
+                      [(ngModel)]="registro.monto" disabled>
+                  </div>
+                <div class="col-sm-12 col-lg-4">
+                  <input style="margin-top: 32px;" class="form-control input-md" type="text" id="literal" name="literal"
+                    [(ngModel)]="literal" disabled>
+                </div>
+                <div class="card-block" *ngIf="tipoT==='TIPO DE EGRESO'">
+                    <div class="form-group">
+                        <div class="row">
+
+
+                            <div  *ngFor="let value of values;let i = index">
+                              <div class="col">
+                                  <app-arreglo-ingresos [tipo]="" [dato]='[i]' (datoInput)='datosTotal($event)' [total]='total'></app-arreglo-ingresos>
+                                </div>
+                          </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-block" *ngIf="tipoT==='TIPO DE INGRESO'">
+                    <div class="form-group">
+                        <div class="row">
+
+                            <div class="col" *ngFor="let value of ingreso;let i = index">
+                                <app-arreglo-ingresos  [tipo]="bandera" [dato]='[i]' (datoInput)='datosIngreso($event)' [total]='total'></app-arreglo-ingresos>
+                              </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label class="form-control-label" for="detalle">DETALLE DE {{encabezado}}:</label>
+                    <textarea required style="text-transform: uppercase;" name="detalle" id="detalle" rows="7" style="width: 100%;"
+                      [(ngModel)]="registro.detalle"></textarea>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="col text-center" *ngIf="!cargando">
+              <div class="lds-spinner">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+              </div>
+            </div>
+            <div class="col text-center" *ngIf="cargando==true">
+              <button style="margin-left: 30px" class="btn btn-primary btn-raised" [disabled]="!regularForm.form.valid"
+              (click)="registrar(regularForm)">REGISTRAR</button>
+            </div>
+            <div class="col text-righ">
+              <button style="margin-left: 30px" class="btn btn-danger btn-raised " (click)="salir()">SALIR</button>
+            </div>
+          </div>
+        </form>
+
+      </div>
+    </div>
+  </div>
+
+</div>

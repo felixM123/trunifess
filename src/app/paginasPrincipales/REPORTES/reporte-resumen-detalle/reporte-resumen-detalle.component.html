@@ -1,0 +1,54 @@
+<div class="row">
+  <div class="col-sm-12">
+    <app-card cardTitle="Reporte Resumen Detalles"  [options]="false">
+      <div class="col-md-12">
+        <div class="row">
+          <div class="col-lg-2"></div>
+          <div class="col-lg-3">
+            <label for="">Fecha:</label>
+              <input class="form-control" placeholder="fecha" #del="ngbDatepicker" name="del" [(ngModel)]="yesterday" ngbDatepicker (click)="del.toggle()" />
+          </div>
+          <div class="col-lg-2">
+            <button type="button" class="btn btn-outline-primary margen" (click)="reporteRecepcion()"><i class="feather icon-check-circle"></i>Procesar</button>
+          </div>
+          <div class="col-lg-3">
+            <button type="button" class="btn btn-outline-primary margen" (click)="exportarXLSX()"><i class="feather icon-file"></i>A Excel</button>
+          </div>
+          <div class="col-lg-2"></div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="table-responsive">
+          <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table  row-border table-hover">
+            <thead>
+              <tr class="bg-c-blue text-white">
+                <th>#</th>
+                <th>Sucursal</th>
+                <th>Fecha</th>
+                <th>Tipo Transaccion</th>
+                <th>Tipo</th>
+                <th>Valor Ingreso</th>
+                <th>Valor Egreso </th>
+                <th>Saldo</th>
+              </tr>
+            </thead>
+            <tbody>
+
+              <tr *ngFor="let item of resumen,index as id">
+                    <th class="bg-c-blue text-white">{{id+1}}</th>
+                    <td>{{ item.agencia }}</td>
+                    <td>{{ item.fecha}}</td>
+                    <td>{{ item.tipo_transaccion}}</td>
+                    <td>{{ item.tipo}}</td>
+                    <td>{{ item.valor_ingreso }}</td>
+                    <td>{{ item.valor_egreso}}</td>
+                   <td>{{item.saldo | number:'2.2-2'}}</td>
+              </tr>
+
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </app-card>
+  </div>
+</div>
